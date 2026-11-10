@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="only light" />
+<meta name="theme-color" content="#fdf3f8" />
+<link rel="icon" href="data:," />
+<title>Orrpha Services</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Great+Vibes&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --app-bg: #fdf3f8;
+    --tg-button: #d63384;
+    --tg-button-text: #ffffff;
+    --ink: #141114;
+    --ink-soft: #6d6269;
+    --pink: #e754a0;
+    --pink-deep: #d63384;
+    --pink-wash: #fdf3f8;
+    --pink-mist: #fbe3ef;
+    --line: rgba(214, 51, 132, .16);
+    --glass-bg: linear-gradient(135deg, rgba(255,255,255,.78), rgba(255,255,255,.42) 55%, rgba(251,227,239,.5));
+    --glass-border: rgba(255,255,255,.85);
+    --glass-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.35), 0 14px 34px rgba(214,51,132,.10);
+    color-scheme: only light;
+  }
+  *{ box-sizing: border-box; }
+  html{ -webkit-text-size-adjust: 100%; background: var(--app-bg); }
+  html, body{ overflow-x: clip; }
+  body{
+    margin: 0;
+    font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    background:
+      radial-gradient(560px 380px at 88% -40px, rgba(231,84,160,.16), transparent 65%),
+      radial-gradient(520px 420px at -120px 34%, rgba(231,84,160,.10), transparent 65%),
+      radial-gradient(600px 460px at 110% 78%, rgba(231,84,160,.12), transparent 65%),
+      linear-gradient(180deg, #ffffff 0%, #fffafd 46%, #fdf3f8 100%);
+    background-attachment: fixed;
+  }
+  .wrap{ max-width: 480px; margin: 0 auto; padding: 14px 18px 44px; position: relative; }
+  button{ font: inherit; }
+  .glass{
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+  .script{
+    font-family: "Great Vibes", cursive; font-weight: 400; color: var(--pink-deep);
+    letter-spacing: 0; text-transform: none;
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 6px 2px 0;
+  }
+  .brandmark{ font-weight: 800; font-size: 17px; letter-spacing: -0.01em; color: var(--ink); }
+  .brandmark span{ color: var(--pink-deep); }
+  .topnav{ display: flex; gap: 4px; }
+  .topnav a{
+    color: var(--ink-soft); text-decoration: none; font-size: 12.5px; font-weight: 600;
+    padding: 8px 10px; border-radius: 999px; line-height: 1;
+  }
+  .topnav a.on{ color: var(--pink-deep); background: rgba(255,255,255,.65); box-shadow: inset 0 0 0 1px var(--line); }
+
+  /* ---------- hero (RIOT layout) ---------- */
+  .hero{ position: relative; padding: 26px 2px 0; }
+  .hero-kicker{
+    margin: 0 0 6px; font-size: 11px; font-weight: 700; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .hero-word{
+    margin: 0; font-family: "Oswald", "Archivo", sans-serif; font-weight: 700;
+    font-size: clamp(46px, 15.5vw, 96px); line-height: .95; letter-spacing: .005em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .hero-script{
+    display: block; margin: -10px 0 0 36%;
+    font-size: clamp(38px, 11vw, 62px); line-height: 1; transform: rotate(-3deg);
+  }
+  .hero-copy{
+    margin: 20px 0 0; font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); max-width: 36ch;
+  }
+  .hero-copy b{ color: var(--ink); font-weight: 700; }
+  .hero-cta{ display: flex; gap: 10px; margin-top: 18px; }
+  .btn{
+    appearance: none; cursor: pointer; border-radius: 999px; min-height: 46px;
+    padding: 12px 22px; font-weight: 700; font-size: 13.5px; color: var(--ink);
+  }
+  .btn:active{ transform: scale(.97); }
+  .btn.solid{
+    background: var(--pink-deep); color: #fff; border: 1px solid rgba(255,255,255,.5);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 12px 26px rgba(214,51,132,.28);
+  }
+  .hero-strip{
+    display: flex; justify-content: space-between; gap: 10px;
+    margin: 30px -18px 0; padding: 12px 18px;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,.45);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    backdrop-filter: blur(12px) saturate(150%);
+    font-size: 13px; font-weight: 600; color: var(--pink-deep); white-space: nowrap;
+  }
+
+  /* ---------- stand out ---------- */
+  .standout{ padding: 34px 2px 0; }
+  .section-title{
+    margin: 0; font-family: "Oswald", "Archivo", sans-serif; font-weight: 600;
+    font-size: clamp(27px, 7.6vw, 36px); line-height: 1.08; letter-spacing: .01em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .standout p{
+    margin: 12px 0 0 auto; font-size: 14px; line-height: 1.65; color: var(--ink-soft);
+    max-width: 34ch;
+  }
+  .standout p b{ color: var(--ink); }
+
+  /* ---------- shop ---------- */
+  .shop-head{ padding: 36px 2px 0; display: flex; align-items: baseline; gap: 12px; }
+  .shop-head .script{ font-size: 34px; line-height: 1; transform: rotate(-2deg); }
+  .tabs{
+    display: flex; gap: 6px; margin-top: 16px; padding: 6px; border-radius: 999px;
+  }
+  .tab{
+    appearance: none; border: none; background: transparent; cursor: pointer; flex: 1;
+    padding: 11px 6px; border-radius: 999px; font-weight: 700; font-size: 13px;
+    color: var(--ink-soft); min-height: 44px; line-height: 1.15;
+  }
+  .tab.on{
+    color: #fff; background: var(--pink-deep);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 8px 18px rgba(214,51,132,.25);
+  }
+  .tab:active{ transform: scale(.97); }
+
+  section.shop{ display: none; }
+  section.shop.active{ display: block; animation: rise .28s ease both; }
+  @keyframes rise{ from{ opacity: 0; transform: translateY(8px);} to{ opacity: 1; transform: none; } }
+  .sec-note{ font-size: 13.5px; color: var(--ink-soft); margin: 16px 2px 14px; line-height: 1.55; }
+
+  /* ---------- product grid (name + pink price underneath) ---------- */
+  .grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; }
+  .item{
+    appearance: none; text-align: left; cursor: pointer; font: inherit; color: var(--ink);
+    border-radius: 22px; padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 12px;
+    transition: box-shadow .15s ease, border-color .15s ease;
+  }
+  .item:active{ transform: scale(.98); }
+  .item-amount{
+    font-family: "Oswald", "Archivo", sans-serif; font-weight: 600;
+    font-size: 34px; line-height: 1; letter-spacing: .01em; color: var(--ink);
+  }
+  .item-unit{ display: block; margin-top: 5px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+  .item-meta{ display: flex; align-items: baseline; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .item-name{ font-size: 13px; font-weight: 600; color: var(--ink-soft); line-height: 1.3; }
+  .item-price{ font-size: 13.5px; font-weight: 800; color: var(--pink-deep); white-space: nowrap; }
+  .pick{
+    align-self: flex-start; font-size: 12px; font-weight: 700; color: var(--pink-deep);
+    padding: 7px 14px; border-radius: 999px;
+    background: rgba(255,255,255,.6); border: 1px solid var(--line);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+  }
+  .item[aria-pressed="true"]{
+    border-color: rgba(214,51,132,.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1.5px rgba(214,51,132,.55), 0 16px 32px rgba(214,51,132,.16);
+  }
+  .item[aria-pressed="true"] .pick{ background: var(--pink-deep); color: #fff; border-color: transparent; }
+  .gift-label{
+    grid-column: 1 / -1; display: flex; align-items: baseline; gap: 10px; margin: 8px 2px -2px;
+    font-family: "Oswald", "Archivo", sans-serif; font-weight: 600; font-size: 19px;
+    text-transform: uppercase; letter-spacing: .02em; color: var(--ink);
+  }
+  .gift-label .script{ font-size: 30px; transform: rotate(-2deg); }
+
+  /* ---------- TON rate panel ---------- */
+  .rate-card{
+    border-radius: 22px; padding: 16px 18px; margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .rate-card .lbl{ font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+  .rate-card .val{ font-size: 25px; font-weight: 800; letter-spacing: -0.02em; color: var(--pink-deep); margin-top: 3px; }
+  .rate-card .val small{ font-size: 13px; font-weight: 600; color: var(--ink-soft); letter-spacing: 0; }
+  .rate-card .meta{ font-size: 11.5px; color: var(--ink-soft); margin-top: 4px; line-height: 1.5; }
+  .rate-card .refresh{
+    appearance: none; cursor: pointer; flex: none; border-radius: 999px; min-height: 44px;
+    padding: 11px 18px; font-weight: 700; font-size: 13px; color: var(--pink-deep);
+  }
+  .rate-card .refresh:active{ transform: scale(.95); }
+  .custom-row{ display: flex; gap: 9px; margin-top: 12px; }
+  .custom-row input{
+    flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 13px 16px;
+    border-radius: 999px; color: var(--ink);
+  }
+  .custom-row input::placeholder{ color: #a2939b; }
+  .custom-row input:focus{ outline: 2px solid var(--pink); outline-offset: 1px; }
+  .custom-row .go{
+    appearance: none; cursor: pointer; font: inherit; font-weight: 700; font-size: 14px;
+    background: var(--ink); color: #fff; border: 1px solid rgba(255,255,255,.4); border-radius: 999px;
+    padding: 12px 20px; min-height: 48px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .custom-row .go:active{ transform: scale(.96); }
+  .custom-hint{ font-size: 12.5px; color: var(--ink-soft); margin: 9px 4px 0; min-height: 16px; line-height: 1.5; }
+
+  /* ---------- order panel ---------- */
+  .orderbox{ margin-top: 28px; border-radius: 26px; padding: 20px 18px 22px; }
+  .orderbox h3{
+    margin: 0 0 4px; font-family: "Oswald", "Archivo", sans-serif; font-weight: 600;
+    font-size: 22px; letter-spacing: .01em; text-transform: uppercase; color: var(--ink);
+  }
+  .summary{ font-size: 14px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 16px; }
+  .summary b{ color: var(--ink); }
+  .summary .total{ color: var(--pink-deep); font-weight: 800; }
+  .field label{ display: block; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 8px; }
+  .field input{
+    width: 100%; font: inherit; font-size: 16px; padding: 14px 16px;
+    border-radius: 16px; color: var(--ink);
+  }
+  .field input::placeholder{ color: #a2939b; }
+  .field input:focus{ outline: 2px solid var(--pink); outline-offset: 1px; }
+  .field .hint{ font-size: 12.5px; color: var(--ink-soft); margin-top: 8px; line-height: 1.5; }
+  .field .err{ font-size: 12.5px; color: #b91c4b; margin-top: 8px; line-height: 1.5; display: none; }
+  .field .err.show{ display: block; }
+  .fallback-btn{
+    display: none; width: 100%; margin-top: 18px; appearance: none; border: 1px solid rgba(255,255,255,.5); cursor: pointer;
+    font: inherit; font-weight: 700; font-size: 15.5px; padding: 15px; border-radius: 999px;
+    background: var(--tg-button, var(--pink-deep)); color: var(--tg-button-text, #fff); min-height: 52px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 12px 26px rgba(214,51,132,.25);
+  }
+  body.no-tg .fallback-btn{ display: block; }
+  .fallback-btn:disabled{ opacity: .45; cursor: default; box-shadow: none; }
+
+  .sent{ display: none; margin-top: 22px; text-align: center; border-radius: 26px; padding: 28px 20px; }
+  .sent.show{ display: block; }
+  .sent .big{
+    font-family: "Oswald", "Archivo", sans-serif; font-weight: 600; font-size: 25px;
+    letter-spacing: .01em; text-transform: uppercase; color: var(--ink); margin: 0 0 8px;
+  }
+  .sent .script{ display: block; font-size: 32px; margin-bottom: 6px; }
+  .sent p{ margin: 0; font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+
+  /* ---------- power in every detail (3 columns) ---------- */
+  .power{
+    margin: 38px -18px 0; padding: 28px 18px 30px;
+    background: linear-gradient(180deg, rgba(251,227,239,.55), rgba(255,255,255,.35));
+    border-top: 1px solid var(--line);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    backdrop-filter: blur(14px) saturate(150%);
+  }
+  .power-grid{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .power-cell{ border-radius: 18px; padding: 14px 12px; }
+  .power-cell h4{ margin: 0 0 6px; font-size: 12.5px; font-weight: 800; line-height: 1.3; color: var(--ink); }
+  .power-cell p{ margin: 0; font-size: 11.5px; line-height: 1.55; color: var(--ink-soft); }
+
+  footer.colophon{ margin-top: 30px; padding: 0 2px; }
+  .colophon .brandline{ font-weight: 800; font-size: 15px; color: var(--ink); }
+  .colophon .brandline span{ color: var(--pink-deep); }
+  .colophon .fine{ font-size: 11.5px; color: var(--ink-soft); line-height: 1.6; margin: 6px 0 0; max-width: 42ch; }
+
+  @media (prefers-reduced-motion: reduce){
+    section.shop.active{ animation: none; }
+    .btn:active, .tab:active, .item:active, .rate-card .refresh:active, .custom-row .go:active{ transform: none; }
+  }
+
+  /* ---------- splash (bright liquid glass) ---------- */
+  .splash{
+    position: fixed; inset: 0; z-index: 60; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px; text-align: center; cursor: pointer;
+    background:
+      radial-gradient(480px 340px at 85% 0%, rgba(231,84,160,.20), transparent 65%),
+      radial-gradient(460px 380px at 0% 100%, rgba(231,84,160,.14), transparent 65%),
+      linear-gradient(180deg, #ffffff, #fdf3f8);
+    transition: opacity .55s ease, transform .55s cubic-bezier(.3, .7, .3, 1), filter .55s ease;
+  }
+  .splash.gone{ opacity: 0; transform: scale(1.04); filter: blur(6px); pointer-events: none; }
+  .splash-glass{
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 40px 34px 36px; max-width: 380px; width: 100%;
+    border-radius: 32px;
+    opacity: 0;
+    animation: splashIn .7s cubic-bezier(.25, 1.2, .35, 1) .05s forwards;
+  }
+  .splash-glass::before{
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, transparent 32%, rgba(255,255,255,.6) 49%, rgba(255,255,255,.14) 57%, transparent 68%);
+    transform: translateX(-110%);
+    animation: splashSheen 1.9s cubic-bezier(.4, .1, .3, 1) .5s forwards;
+  }
+  @keyframes splashIn{
+    from{ opacity: 0; transform: translateY(18px) scale(.94); }
+    to{ opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes splashSheen{ to{ transform: translateX(110%); } }
+  .splash-kicker{
+    font-size: 11px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;
+    color: var(--ink-soft); margin: 0 0 10px; opacity: 0; animation: splashFade .5s ease .2s forwards;
+  }
+  .splash-word{
+    margin: 0; font-family: "Oswald", "Archivo", sans-serif; font-weight: 700;
+    font-size: clamp(36px, 10.5vw, 60px); line-height: 1.05; letter-spacing: .01em;
+    text-transform: uppercase; color: var(--ink);
+    display: flex; flex-wrap: wrap; justify-content: center; column-gap: .3em;
+  }
+  .splash-word .word{ display: inline-flex; white-space: nowrap; }
+  .splash-word .ch{
+    display: inline-block; opacity: 0; filter: blur(6px);
+    animation: splashLetter .6s cubic-bezier(.2, 1.3, .3, 1) forwards;
+    animation-delay: calc(.3s + var(--i) * .06s);
+  }
+  .splash-word .ch.space{ width: .3em; }
+  .splash-script{
+    font-size: 46px; line-height: 1.1; margin-top: -6px; transform: rotate(-3deg);
+    opacity: 0; animation: splashFade .5s ease 1.15s forwards;
+  }
+  .splash-sub{
+    margin: 14px 0 0; font-size: 13px; line-height: 1.55; color: var(--ink-soft);
+    opacity: 0; animation: splashFade .5s ease 1.3s forwards;
+  }
+  @keyframes splashLetter{
+    0%{ opacity: 0; filter: blur(6px); transform: translateY(24px) scale(.8); }
+    60%{ opacity: 1; filter: blur(0); transform: translateY(-3px) scale(1.04); }
+    100%{ opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
+  }
+  @keyframes splashFade{
+    from{ opacity: 0; transform: translateY(8px); }
+    to{ opacity: 1; transform: none; }
+  }
+  .splash-script{ animation-name: splashFadeScript; }
+  @keyframes splashFadeScript{
+    from{ opacity: 0; transform: rotate(-3deg) translateY(8px); }
+    to{ opacity: 1; transform: rotate(-3deg) translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .splash-word .ch, .splash-kicker, .splash-script, .splash-sub, .splash-glass{ animation-duration: .01s; animation-delay: 0s; }
+    .splash-glass::before{ animation: none; }
+    .splash-glass{ opacity: 1; }
+    .splash{ transition-duration: .15s; }
+  }
+</style>
+</head>
+<body>
+<!-- ================= SPLASH ================= -->
+<div class="splash" id="splash" role="img" aria-label="Slayter App">
+  <div class="splash-glass glass">
+    <p class="splash-kicker">Telegram Services</p>
+    <p class="splash-word" aria-hidden="true"><span class="word"><span class="ch" style="--i:0">S</span><span class="ch" style="--i:1">l</span><span class="ch" style="--i:2">a</span><span class="ch" style="--i:3">y</span><span class="ch" style="--i:4">t</span><span class="ch" style="--i:5">e</span><span class="ch" style="--i:6">r</span></span><span class="word"><span class="ch" style="--i:8">A</span><span class="ch" style="--i:9">p</span><span class="ch" style="--i:10">p</span></span></p>
+    <span class="splash-script script">welcome in</span>
+    <p class="splash-sub">Stars, Premium and TON — selected with care, delivered with ease.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ================= TOP BAR ================= -->
+  <header class="topbar">
+    <div class="brandmark">orrpha<span>.</span></div>
+    <nav class="topnav" aria-label="Services">
+      <a href="#shop" data-service="stars" class="on">Stars</a>
+      <a href="#shop" data-service="premium">Premium</a>
+      <a href="#shop" data-service="ton">TON</a>
+    </nav>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <div class="hero">
+    <p class="hero-kicker">Orrpha Services — Est. for Telegram</p>
+    <h1 class="hero-word">Telegram</h1>
+    <span class="hero-script script" aria-hidden="true">essentials</span>
+    <p class="hero-copy">A considered edit of Telegram essentials — <b>Stars, Premium and TON</b>, priced clearly and processed personally by Slayter.</p>
+    <div class="hero-cta">
+      <button class="btn solid" type="button" data-goto-shop>View Collection</button>
+      <button class="btn glass" type="button" id="to-order">Order Details</button>
+    </div>
+    <div class="hero-strip" aria-hidden="true">
+      <span>Telegram Stars</span><span>Premium</span><span>TON</span>
+    </div>
+  </div>
+
+  <!-- ================= STAND OUT ================= -->
+  <div class="standout">
+    <h2 class="section-title">Designed to<br />stand out</h2>
+    <p><b>Orrpha Services</b> is a small, curated shop for your Telegram life — clean pricing, a simple order flow, and payment by QRIS once your order is confirmed in chat.</p>
+  </div>
+
+  <!-- ================= SHOP ================= -->
+  <div id="shop">
+    <div class="shop-head">
+      <h2 class="section-title">The Collection</h2>
+      <span class="script" aria-hidden="true">shop now</span>
+    </div>
+    <div class="tabs glass" role="tablist" aria-label="Choose a service">
+      <button class="tab on" type="button" data-service="stars">Stars</button>
+      <button class="tab" type="button" data-service="premium">Premium</button>
+      <button class="tab" type="button" data-service="ton">TON</button>
+    </div>
+
+    <!-- ================= STARS ================= -->
+    <section class="shop active" id="sec-stars" aria-label="Telegram Stars">
+      <p class="sec-note">Stars are delivered to the recipient Telegram account. Select a package to continue.</p>
+      <div class="grid" id="stars-grid"></div>
+    </section>
+
+    <!-- ================= PREMIUM ================= -->
+    <section class="shop" id="sec-premium" aria-label="Telegram Premium">
+      <p class="sec-note">Premium for your own account, or sent as a gift to someone else. Select a package to continue.</p>
+      <div class="grid" id="premium-grid"></div>
+    </section>
+
+    <!-- ================= TON ================= -->
+    <section class="shop" id="sec-ton" aria-label="TON Converter">
+      <p class="sec-note">TON is sent to your wallet address. Select an amount, or enter a custom amount below.</p>
+      <div class="rate-card glass">
+        <div>
+          <div class="lbl">Today's Rate</div>
+          <div class="val" id="ton-rate">Rp 20.000<small> / TON</small></div>
+          <div class="meta" id="ton-rate-meta">CoinGecko market price + 2%, rounded to Rp 500</div>
+        </div>
+        <button class="refresh glass" type="button" id="ton-refresh">Refresh</button>
+      </div>
+      <div class="grid" id="ton-grid"></div>
+      <div class="custom-row">
+        <input class="glass" id="ton-custom" type="text" inputmode="decimal" placeholder="Custom amount, e.g. 3.5 TON" aria-label="Custom TON amount" />
+        <button class="go" type="button" id="ton-custom-go">Apply</button>
+      </div>
+      <p class="custom-hint" id="ton-custom-hint"></p>
+    </section>
+  </div>
+
+  <!-- ================= ORDER FORM ================= -->
+  <div class="orderbox glass" id="orderbox">
+    <h3>Order Details</h3>
+    <p class="summary" id="summary">No package selected yet — please choose a package above first.</p>
+    <div class="field">
+      <label for="recipient" id="recipient-label">Recipient Telegram Username</label>
+      <input class="glass" id="recipient" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="@username" />
+      <p class="hint" id="recipient-hint">Example: @username — please double-check for typos, as the order is delivered to this account.</p>
+      <p class="err" id="recipient-err"></p>
+    </div>
+    <button class="fallback-btn" type="button" id="fallback-btn" disabled>Send Order</button>
+  </div>
+
+  <div class="sent glass" id="sent">
+    <p class="big">Order Sent</p>
+    <span class="script">thank you</span>
+    <p>Your order details have been sent to the bot. Slayter will send the QRIS in the chat — simply complete the payment there.</p>
+  </div>
+
+  <!-- ================= POWER IN EVERY DETAIL ================= -->
+  <div class="power">
+    <h2 class="section-title">Power in<br />every detail</h2>
+    <div class="power-grid">
+      <div class="power-cell glass">
+        <h4>Fast Processing</h4>
+        <p>Orders are handled personally and processed right after payment is confirmed.</p>
+      </div>
+      <div class="power-cell glass">
+        <h4>Secure Payment</h4>
+        <p>Payment is made by QRIS, sent directly in your chat with the exact order total.</p>
+      </div>
+      <div class="power-cell glass">
+        <h4>Clear Pricing</h4>
+        <p>Every price is listed upfront. TON follows the live market rate, updated automatically.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="colophon">
+    <p class="brandline">orrpha<span>.</span></p>
+    <p class="fine">Orrpha Services — Telegram Stars, Premium and TON. Payment by QRIS is sent by Slayter in the chat after your order is received.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- splash screen ---------------- */
+  var splash = document.getElementById("splash");
+  var splashGone = false;
+  function hideSplash(){
+    if (splashGone || !splash) return;
+    splashGone = true;
+    splash.classList.add("gone");
+    setTimeout(function(){ if (splash && splash.parentNode) splash.parentNode.removeChild(splash); }, 600);
+  }
+  if (splash){
+    splash.addEventListener("click", hideSplash);
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setTimeout(hideSplash, reduceMotion ? 700 : 2500);
+  }
+
+  /* ---------------- data (identical to the bot) ---------------- */
+  var STARS = [
+    { amount: 50,   price: 17000 },
+    { amount: 75,   price: 25500 },
+    { amount: 100,  price: 34000 },
+    { amount: 150,  price: 51000 },
+    { amount: 250,  price: 76000 },
+    { amount: 350,  price: 107000 },
+    { amount: 500,  price: 147500 },
+    { amount: 750,  price: 217500 },
+    { amount: 1000, price: 290000 }
+  ];
+  var PREMIUM_SELF = [
+    { item: "1 month",   months: 1,  price: 58000 },
+    { item: "2 months",  months: 2,  price: 116000 },
+    { item: "3 months",  months: 3,  price: 174000 },
+    { item: "12 months", months: 12, price: 375000 }
+  ];
+  var PREMIUM_GIFT = [
+    { item: "3 months gift", months: 3,  price: 210000 },
+    { item: "6 months gift", months: 6,  price: 280000 },
+    { item: "1 year gift",   months: 12, price: 495000 }
+  ];
+  var TON_PACKS = [1, 2, 5, 8, 10];
+  var TON_FALLBACK_RATE = 20000;
+
+  /* ---------------- helpers ---------------- */
+  function rp(n){ return "Rp " + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+  function $(id){ return document.getElementById(id); }
+  var tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+  var inTelegram = !!(tg && tg.initData);
+  if (inTelegram){
+    tg.ready();
+    tg.expand();
+    var pinLightChrome = function(){
+      if (tg.setHeaderColor) tg.setHeaderColor("#fdf3f8");
+      if (tg.setBackgroundColor) tg.setBackgroundColor("#fdf3f8");
+    };
+    pinLightChrome();
+    if (tg.onEvent) tg.onEvent("themeChanged", pinLightChrome);
+  } else {
+    document.body.classList.add("no-tg");
+  }
+
+  /* ---------------- state ---------------- */
+  var state = { service: "stars", selection: null, tonRate: TON_FALLBACK_RATE, tonCustom: null };
+  // selection: { kind, item, amount, price }
+
+  /* ---------------- render grids ---------------- */
+  function refreshPickLabels(gridEl){
+    if (!gridEl) return;
+    var items = gridEl.querySelectorAll(".item");
+    for (var i = 0; i < items.length; i++){
+      var pk = items[i].querySelector(".pick");
+      if (pk) pk.textContent = items[i].getAttribute("aria-pressed") === "true" ? "Selected" : "Select";
+    }
+  }
+  function makeItem(amountText, unitText, nameText, price, onPick){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "item glass";
+    b.setAttribute("aria-pressed", "false");
+    b.innerHTML =
+      '<span><span class="item-amount">' + amountText + '</span><span class="item-unit">' + unitText + "</span></span>" +
+      '<span class="item-meta"><span class="item-name">' + nameText + '</span><span class="item-price">' + rp(price) + '</span></span>' +
+      '<span class="pick">Select</span>';
+    b.addEventListener("click", function(){
+      var group = b.parentElement.querySelectorAll(".item");
+      for (var i = 0; i < group.length; i++) group[i].setAttribute("aria-pressed", "false");
+      b.setAttribute("aria-pressed", "true");
+      refreshPickLabels(b.parentElement);
+      onPick();
+      haptic("light");
+    });
+    return b;
+  }
+
+  var starsGrid = $("stars-grid");
+  STARS.forEach(function(p){
+    starsGrid.appendChild(makeItem(String(p.amount), "Telegram Stars", p.amount + " Stars", p.price, function(){
+      state.selection = { kind: "stars", item: p.amount + " Stars", amount: p.amount, price: p.price };
+      afterSelect();
+    }));
+  });
+
+  var premiumGrid = $("premium-grid");
+  PREMIUM_SELF.forEach(function(p){
+    premiumGrid.appendChild(makeItem(p.item.split(" ")[0], "Months of Premium", "Premium " + p.item, p.price, function(){
+      state.selection = { kind: "premium", item: "Premium " + p.item, amount: p.months, price: p.price };
+      afterSelect();
+    }));
+  });
+  var giftLabel = document.createElement("div");
+  giftLabel.className = "gift-label";
+  giftLabel.innerHTML = 'Send as a <span class="script">gift</span>';
+  premiumGrid.appendChild(giftLabel);
+  PREMIUM_GIFT.forEach(function(p){
+    premiumGrid.appendChild(makeItem(p.item.split(" ")[0], p.item.indexOf("year") > -1 ? "Year of Premium" : "Months of Premium", "Premium " + p.item, p.price, function(){
+      state.selection = { kind: "premium", item: "Premium " + p.item, amount: p.months, price: p.price };
+      afterSelect();
+    }));
+  });
+
+  var tonGrid = $("ton-grid");
+  function renderTonGrid(){
+    tonGrid.innerHTML = "";
+    TON_PACKS.forEach(function(n){
+      var b = makeItem(String(n), "TON", n + " TON", n * state.tonRate, function(){
+        state.tonCustom = null;
+        $("ton-custom").value = "";
+        $("ton-custom-hint").textContent = "";
+        state.selection = { kind: "ton", item: n + " TON", amount: n, price: n * state.tonRate };
+        afterSelect();
+      });
+      if (state.selection && state.selection.kind === "ton" && state.tonCustom === null && state.selection.amount === n){
+        b.setAttribute("aria-pressed", "true");
+      }
+      tonGrid.appendChild(b);
+    });
+    refreshPickLabels(tonGrid);
+  }
+  renderTonGrid();
+
+  /* ---------------- service switching ---------------- */
+  var navLinks = document.querySelectorAll(".topnav a[data-service]");
+  var tabBtns = document.querySelectorAll(".tab[data-service]");
+
+  function activateService(name, scroll){
+    state.service = name;
+    navLinks.forEach(function(a){ a.classList.toggle("on", a.getAttribute("data-service") === name); });
+    tabBtns.forEach(function(t){ t.classList.toggle("on", t.getAttribute("data-service") === name); });
+    document.querySelectorAll("section.shop").forEach(function(s){ s.classList.remove("active"); });
+    $("sec-" + name).classList.add("active");
+    updateRecipientUI();
+    updateOrderUI();
+    if (scroll) $("shop").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  navLinks.forEach(function(a){
+    a.addEventListener("click", function(ev){ ev.preventDefault(); activateService(a.getAttribute("data-service"), true); haptic("light"); });
+  });
+  tabBtns.forEach(function(t){
+    t.addEventListener("click", function(){ activateService(t.getAttribute("data-service"), false); haptic("light"); });
+  });
+  document.querySelectorAll("[data-goto-shop]").forEach(function(el){
+    el.addEventListener("click", function(){ $("shop").scrollIntoView({ behavior: "smooth", block: "start" }); });
+  });
+  $("to-order").addEventListener("click", function(){ $("orderbox").scrollIntoView({ behavior: "smooth", block: "center" }); });
+
+  /* ---------------- TON rate (live, CoinGecko) ---------------- */
+  var rateMeta = $("ton-rate-meta");
+  function fmtTime(d){
+    var hh = ("0" + d.getHours()).slice(-2), mm = ("0" + d.getMinutes()).slice(-2);
+    return hh + "." + mm + " WIB";
+  }
+  function applyRate(rate, note){
+    state.tonRate = rate;
+    $("ton-rate").innerHTML = rp(rate) + "<small> / TON</small>";
+    rateMeta.textContent = note;
+    renderTonGrid();
+    if (state.selection && state.selection.kind === "ton"){
+      var amt = state.selection.amount;
+      state.selection = { kind: "ton", item: String(amt).replace(".", ",") + " TON", amount: amt, price: Math.round(amt * rate) };
+    }
+    updateOrderUI();
+  }
+  function fetchRate(){
+    rateMeta.textContent = "Checking the market price...";
+    fetch("https://api.coingecko.com/api/v3/simple/price?ids=the-open-network&vs_currencies=idr")
+      .then(function(r){ if (!r.ok) throw new Error("http " + r.status); return r.json(); })
+      .then(function(j){
+        var market = j && j["the-open-network"] && j["the-open-network"].idr;
+        if (!market) throw new Error("no price");
+        var rate = Math.round((market * 1.02) / 500) * 500;
+        applyRate(rate, "Market price " + rp(market) + " + 2%, rounded to Rp 500 · Updated " + fmtTime(new Date()));
+      })
+      .catch(function(){
+        applyRate(TON_FALLBACK_RATE, "The market price is unavailable right now — the fixed rate of Rp 20.000/TON applies.");
+      });
+  }
+  $("ton-refresh").addEventListener("click", function(){ fetchRate(); haptic("light"); });
+  fetchRate();
+  setInterval(fetchRate, 60000);
+
+  /* custom TON amount */
+  function parseTonCustom(){
+    var raw = $("ton-custom").value.trim().replace(/\s/g, "").replace(",", ".");
+    var v = parseFloat(raw);
+    if (!raw || isNaN(v) || v <= 0) return null;
+    return Math.round(v * 100) / 100;
+  }
+  $("ton-custom-go").addEventListener("click", function(){
+    var v = parseTonCustom();
+    var hint = $("ton-custom-hint");
+    if (v === null){
+      hint.textContent = "Please enter a TON amount first, for example 3 or 3.5.";
+      state.selection = (state.selection && state.selection.kind !== "ton") ? state.selection : null;
+      updateOrderUI();
+      return;
+    }
+    tonGrid.querySelectorAll(".item").forEach(function(x){ x.setAttribute("aria-pressed", "false"); });
+    refreshPickLabels(tonGrid);
+    state.tonCustom = v;
+    var price = Math.round(v * state.tonRate);
+    state.selection = { kind: "ton", item: String(v).replace(".", ",") + " TON", amount: v, price: price };
+    hint.textContent = String(v).replace(".", ",") + " TON at " + rp(state.tonRate) + " per TON = " + rp(price) + ".";
+    afterSelect();
+    haptic("light");
+  });
+
+  /* ---------------- recipient + validation ---------------- */
+  var recipientInput = $("recipient");
+  var recipientErr = $("recipient-err");
+
+  function updateRecipientUI(){
+    var isTon = state.service === "ton";
+    $("recipient-label").textContent = isTon ? "Destination TON Wallet Address" : "Recipient Telegram Username";
+    recipientInput.placeholder = isTon ? "UQ... / EQ... (48 characters)" : "@username";
+    $("recipient-hint").textContent = isTon
+      ? "Paste your TON wallet address (starting with UQ or EQ, 48 characters) — the TON will be sent to this address."
+      : "Example: @username — please double-check for typos, as the order is delivered to this account.";
+    recipientErr.classList.remove("show");
+  }
+
+  function validateRecipient(){
+    var v = recipientInput.value.trim();
+    if (state.service === "ton"){
+      if (!v) return { ok: false, msg: "The wallet address has not been entered yet." };
+      if (!/^(UQ|EQ)[A-Za-z0-9_-]{46}$/.test(v)) return { ok: false, msg: "The wallet address format is not valid — it must start with UQ or EQ and be 48 characters in total." };
+      return { ok: true, value: v };
+    }
+    var u = v.charAt(0) === "@" ? v.slice(1) : v;
+    if (!u) return { ok: false, msg: "The recipient username has not been entered yet." };
+    if (!/^[A-Za-z][A-Za-z0-9_]{4,31}$/.test(u)) return { ok: false, msg: "The username is not valid — 5 to 32 characters, letters, numbers or underscores, starting with a letter." };
+    return { ok: true, value: "@" + u };
+  }
+
+  recipientInput.addEventListener("input", function(){
+    recipientErr.classList.remove("show");
+    updateOrderUI();
+  });
+
+  /* ---------------- order summary + buttons ---------------- */
+  var summaryEl = $("summary");
+  var fallbackBtn = $("fallback-btn");
+
+  function updateOrderUI(){
+    var sel = state.selection;
+    if (!sel || sel.kind !== state.service){
+      summaryEl.textContent = "No package selected yet — please choose a package above first.";
+    } else if (sel.kind === "stars"){
+      summaryEl.innerHTML = "You selected <b>" + sel.amount + " Telegram Stars</b> — total <span class=\"total\">" + rp(sel.price) + "</span>. Please enter the recipient username below.";
+    } else if (sel.kind === "premium"){
+      summaryEl.innerHTML = "You selected <b>Telegram " + sel.item + "</b> — total <span class=\"total\">" + rp(sel.price) + "</span>. Please enter the recipient username below.";
+    } else {
+      summaryEl.innerHTML = "You selected <b>" + sel.item + "</b> at " + rp(state.tonRate) + " per TON — total <span class=\"total\">" + rp(sel.price) + "</span>. Please enter the destination wallet address below.";
+    }
+    var hasSel = !!(sel && sel.kind === state.service);
+    if (inTelegram){
+      var mb = tg.MainButton;
+      mb.setText(hasSel ? ("Send Order — " + rp(sel.price)) : "Send Order");
+      if (hasSel){ mb.show(); mb.enable(); } else { mb.hide(); }
+    }
+    fallbackBtn.disabled = !hasSel;
+    fallbackBtn.textContent = hasSel ? ("Send Order — " + rp(sel.price)) : "Send Order";
+  }
+  function afterSelect(){
+    updateOrderUI();
+    var box = $("orderbox");
+    if (box.getBoundingClientRect().bottom > window.innerHeight){
+      box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }
+
+  /* ---------------- send order ---------------- */
+  function sendOrder(){
+    var check = validateRecipient();
+    if (!state.selection || state.selection.kind !== state.service){
+      summaryEl.textContent = "Please select a package first, then send the order.";
+      return;
+    }
+    if (!check.ok){
+      recipientErr.textContent = check.msg;
+      recipientErr.classList.add("show");
+      recipientInput.focus();
+      if (inTelegram && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred("error");
+      return;
+    }
+    var payload = {
+      kind: state.selection.kind,
+      item: state.selection.item,
+      amount: state.selection.amount,
+      price: state.selection.price,
+      recipient: check.value
+    };
+    var data = JSON.stringify(payload);
+    if (data.length > 4096) data = data.slice(0, 4096);
+    if (inTelegram){
+      if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred("success");
+      tg.sendData(data);
+    } else {
+      $("sent").classList.add("show");
+      $("sent").scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+  if (inTelegram){
+    tg.MainButton.onClick(sendOrder);
+    tg.MainButton.hide();
+  }
+  fallbackBtn.addEventListener("click", sendOrder);
+
+  function haptic(style){
+    if (inTelegram && tg.HapticFeedback) tg.HapticFeedback.impactOccurred(style);
+  }
+
+  updateRecipientUI();
+  updateOrderUI();
+})();
+</script>
+</body>
+</html>
